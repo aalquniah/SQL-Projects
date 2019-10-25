@@ -1,0 +1,44 @@
+/*Query1: used for first insight */
+
+select Artist.ArtistId, Artist.Name, count(Track.TrackId) as songs
+from Artist
+join Album
+on	Artist.ArtistId = Album.ArtistId
+join Track
+on 	Album.AlbumId = Track.AlbumId
+join Genre
+on Track.GenreId = Genre.GenreId
+where Genre.Name = 'Rock'
+group by Artist.ArtistId
+order by songs desc
+limit 10
+
+/*Query2: used for second insight */
+
+select track.Name, count(PlaylistTrack.TrackId) as SongInPlaylists
+from Track
+join PlaylistTrack
+on Track.TrackId = PlaylistTrack.TrackId
+group by 1
+order by 2 desc
+limit 10
+
+
+/*Query3: used for third insight */
+select Customer.Country, sum(Invoice.Total) as TotalSales
+from Customer
+join Invoice
+on Customer.CustomerId = Invoice.CustomerId
+group by 1
+order by 2 desc
+limit 10
+
+/*Query4: used for fourth insight */
+select Employee.EmployeeId, Employee.FirstName, Employee.LastName, sum(Invoice.Total) as Sales
+from Employee
+join Customer
+on Employee.EmployeeId = Customer.SupportRepId
+join Invoice
+on Customer.CustomerId = Invoice.CustomerId
+group by 1
+order by 4 desc
